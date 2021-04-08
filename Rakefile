@@ -1,5 +1,6 @@
 SOURCE_FILES = Rake::FileList.new("**/*.md", "**/*.markdown") do |fl|
   fl.exclude("~*")
+  fl.exclude("README*")
 end
 
 PANDOC_DIR = if (env_dir = ENV['pandoc_dir']) == nil then
@@ -12,11 +13,12 @@ task :default => :html
 task :html => SOURCE_FILES.pathmap("%{^src/,out/}X.html")
 task :epub do |t|
   mkdir_p "out"
-  puts PANDOC_DIR
-  sh "pandoc \
-      --lua-filter #{PANDOC_DIR}/pandoc-ling.lua -t epub3 -o out/kangshi.epub \
-      src/meta.yml \
-      #{SOURCE_FILES}"
+  sh <<~SHCOMMAND
+    pandoc \
+    --lua-filter #{PANDOC_DIR}/pandoc-ling.lua -t epub3 -o out/kangshi.epub \
+    src/meta.yml \
+    #{SOURCE_FILES}
+  SHCOMMAND
 end
 
 directory "out"
