@@ -187,9 +187,13 @@ function Table(caption, aligns, widths, headers, rows)
   add("[table]")
   local header_row = {}
   local empty_header = true
-  for _, h in pairs(headers) do
+  local has_header_column = true
+  for i, h in pairs(headers) do
     table.insert(header_row, ("[cell]%s[/cell]"):format(h))
     empty_header = empty_header and h == ""
+    if i == 1 then
+      has_header_column = has_header_column and h == ""
+    end
   end
   if empty_header then
     head = ""
@@ -198,8 +202,12 @@ function Table(caption, aligns, widths, headers, rows)
   end
   for _, row in pairs(rows) do
     local content_row = {}
-    for _, c in pairs(row) do
+    for i, c in pairs(row) do
+      if i == 1 and has_header_column then
+        table.insert(content_row, ("[cellh]%s[/cellh]"):format(c))
+      else
         table.insert(content_row, ("[cell]%s[/cell]"):format(c))
+      end
     end
     add(("[row]%s[/row]"):format(table.concat(content_row, "")))
   end
