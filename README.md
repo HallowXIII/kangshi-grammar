@@ -28,3 +28,8 @@ To build the ebook, you need the following software installed:
 
 Then, from the top-level directory, run either `rake` or `rake html` to compile
 individual chapters to html, or `rake epub` to build the book.
+
+## License
+![CC-BY 4.0](https://i.creativecommons.org/l/by/4.0/88x31.png)
+
+The text and code in this repository are licensed under CC-BY 4.0. To learn more, see the [LICENSE](LICENSE) file.
